@@ -1,32 +1,37 @@
 #!/bin/bash
 echo "Installing Jdk 1.8 and update alternatives ...."
-banner JAVA
-sudo yum install java-1.8.0-openjdk-devel
-sudo alternatives --config java 2
-sudo alternatives --config javac 2
-
-echo java -version
-
+figlet JAVA
+sudo yum install -y java-1.8.0-openjdk-devel
+sudo alternatives --config java 
+sudo alternatives --config javac 
 echo "Jdk 1.8 installed successfully."
+java -version
+echo "done."
+sleep 3
+
 
 echo "Installing maven 3.3 and set the path ..."
-banner MAVEN
+figlet MAVEN
 wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
 sudo sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
 sudo yum install -y apache-maven
  
 echo "Mavnen installed successfully."
-echo mvn -version
 
+mvn -version
+echo "done."
+sleep 3
 
 echo "Installing git ...."
-banner GIT
-echo yum install git -y
+figlet GIT
+sudo yum install git -y
 echo "Git installed successfully"
-echo git --version
+git --version
+echo "done."
+sleep 3
 
 echo "Installing Jenkins ...."
-banner JENKINS
+figlet JENKINS
 sudo wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat-stable/jenkins.repo
 sudo rpm --import http://pkg.jenkins-ci.org/redhat-stable/jenkins-ci.org.key
 sudo yum install jenkins -y 
@@ -34,29 +39,36 @@ sudo chkconfig jenkins on
 sudo service jenkins start
 sudo service jenkins status
 echo "Jenkins installed successfully."
-
+sleep 3
 
 echo "Installing tomcat 7 ..."
-banner TOMCAT
+figlet TOMCAT
 cd /tmp
 sudo wget http://www-us.apache.org/dist/tomcat/tomcat-7/v7.0.85/bin/apache-tomcat-7.0.85.tar.gz
 sudo tar xzf apache-tomcat-7.0.85.tar.gz
 sudo mv apache-tomcat-7.0.85 /usr/local/tomcat7
+# copy server.xml
+# copy tomcat-user.xml
+
 cd /usr/local/tomcat7
 bin/startup.sh
 echo "tomcat 7 installed successfully."
-
+sleep 3
 echo "Installing ansible ..."
-banner ANSIBLE
+figlet ANSIBLE
 sudo yum install -y ansible --enablerepo=epel  
 echo "Ansible installed successfully."
-echo ansible --version
-
+ansible --version
+echo "done."
+sleep 3
 echo "Installing Docker ..."
-banner DOCKER
+figlet DOCKER
 sudo yum update -y
 sudo yum install docker -y
 sudo service docker start
 sudo chkconfig docker on
 echo "Docker installed successfully."
-echo docker --version
+
+docker version
+echo "done."
+sleep 3
